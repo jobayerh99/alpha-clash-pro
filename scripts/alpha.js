@@ -2,6 +2,12 @@
 
 function handleKeyboardKeyUpEvent(event) {
     const playerPressed = event.key;
+
+    // stope game if pressed esc
+    if(playerPressed === 'Escape'){
+        gameOver();
+    }
+
     const currentAlphabetElement = document.getElementById('current-alphabet')
     const currentAlphabet = currentAlphabetElement.innerText;
     const expectedAlphabet = currentAlphabet.toLocaleLowerCase();
@@ -36,7 +42,7 @@ function handleKeyboardKeyUpEvent(event) {
 
     //    currentLifeElement.innerText = newLife;
 
-       if(newLife === 0){
+       if(updatedLife === 0){
         gameOver();
        }
     }
@@ -54,16 +60,27 @@ function continueGame() {
 }
 
 function play() {
+// hide everything show only the playground
     hideElementById('home-screan');
     hideElementById('final-score');
     showElementById('play-ground');
 
+    // reset score and life
+    setTextElementValueById('current-life', 5);
+    setTextElementValueById('current-score', 0);
 
-
-    continueGame()
+    continueGame();
 }
 
 function gameOver(){
     hideElementById('play-ground');
     showElementById('final-score');
+
+    // update final score
+    const lastScore = getTextElementValueById('current-score')
+    setTextElementValueById('last-score', lastScore);
+
+    // clear the last highlited alphabet
+    const currentAlphabet = getElementTextById('current-alphabet');
+    removeBackgroundColourById(currentAlphabet);
 }
